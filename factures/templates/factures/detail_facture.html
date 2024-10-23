@@ -1,0 +1,20 @@
+<!-- templates/factures/detail_facture.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails de la facture</title>
+</head>
+<body>
+    <h1>Détails de la facture {{ facture.numero }}</h1>
+    <p>Montant : {{ facture.montant }} €</p>
+    <p>Catégorie : {{ facture.categorie }}</p>
+    <p>Date de création : {{ facture.date_creation }}</p>
+    <p>Payée : {{ 'Oui' if facture.est_payee else 'Non' }}</p>
+
+    <a href="{% url 'modifier_facture' facture.pk %}">Modifier</a>
+    <a href="{% url 'supprimer_facture' facture.pk %}">Supprimer</a>
+    <br>
+    <a href="{% url 'liste_factures' %}">Retour à la liste des factures</a>
+</body>
+</html>

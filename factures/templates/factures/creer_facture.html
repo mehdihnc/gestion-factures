@@ -1,0 +1,17 @@
+<!-- templates/factures/creer_facture.html -->
+{% extends 'factures/base.html' %}
+
+{% block title %}Créer une Facture{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Créer une Facture</h1>
+    <p>Client : {{ client.nom }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Créer la facture</button>
+    </form>
+</div>
+{% endblock %}

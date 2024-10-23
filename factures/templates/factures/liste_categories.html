@@ -1,0 +1,25 @@
+<!-- templates/factures/factures_par_categorie.html -->
+{% extends 'factures/base.html' %}
+
+{% block title %}Liste des Catégories{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Liste des Catégories</h1>
+    
+    <div class="list-group">
+        {% for categorie in categories %}
+            <a href="{% url 'factures_par_categorie' categorie.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ categorie.nom }}</h5>
+                    <small>{{ categorie.facture_set.count }} facture(s)</small>
+                </div>
+            </a>
+        {% empty %}
+            <div class="alert alert-info">
+                Aucune catégorie n'est disponible.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!-- templates/factures/factures_par_categorie.html -->
+{% extends 'factures/base.html' %}
+
+{% block title %}Factures - {{ categorie.nom }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Factures de la catégorie : {{ categorie.nom }}</h1>
+    
+    <div class="list-group">
+        {% for facture in factures %}
+            <div class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Facture {{ facture.numero }}</h5>
+                    <small>{{ facture.date_creation }}</small>
+                </div>
+                <p class="mb-1">Montant : {{ facture.montant }} €</p>
+                <small>Statut : {% if facture.est_payee %}Payée{% else %}Non payée{% endif %}</small>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">
+                Aucune facture dans cette catégorie.
+            </div>
+        {% endfor %}
+    </div>
+    
+    <a href="{% url 'liste_categories' %}" class="btn btn-secondary mt-3">Retour aux catégories</a>
+</div>
+{% endblock %}

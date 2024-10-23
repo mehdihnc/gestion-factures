@@ -1,0 +1,70 @@
+<!-- templates/factures/liste_factures.html -->
+{% extends 'factures/base.html' %}
+
+{% block title %}Liste des Factures{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Liste des Factures</h1>
+
+    <!-- Filtre par client -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="form-inline">
+                <div class="form-group mr-3">
+                    <label for="client" class="mr-2">Filtrer par client :</label>
+                    <select name="client" id="client" class="form-control">
+                        <option value="">Tous les clients</option>
+                        {% for client in clients %}
+                            <option value="{{ client.id }}" {% if selected_client|stringformat:"s" == client.id|stringformat:"s" %}selected{% endif %}>
+                                {{ client.nom }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Filtrer</button>
+                {% if selected_client %}
+                    <a href="{% url 'liste_factures' %}" class="btn btn-secondary ml-2">Réinitialiser</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Liste des factures -->
+    <div class="list-group">
+        {% for facture in factures %}
+            <div class="list-group-item {% if facture.est_payee %}list-group-item-success{% endif %}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Facture {{ facture.numero }}</h5>
+                    <small>{{ facture.date_creation }}</small>
+                </div>
+                <p class="mb-1">Client : {{ facture.client.nom|default:"Non assigné" }}</p>
+                <p class="mb-1">Montant : {{ facture.montant }} €</p>
+                <p class="mb-1">Catégorie : {{ facture.categorie.nom }}</p>
+                <small>Statut : {% if facture.est_payee %}
+                    <span class="badge badge-success">Payée</span>
+                {% else %}
+                    <span class="badge badge-warning">Non payée</span>
+                {% endif %}</small>
+                
+                <!-- Boutons d'action -->
+                <div class="mt-2">
+                    <a href="{% url 'detail_facture' facture.id %}" class="btn btn-sm btn-info">Détails</a>
+                    <a href="{% url 'modifier_facture' facture.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'supprimer_facture' facture.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">
+                Aucune facture disponible.
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'creer_facture' %}" class="btn btn-primary">
+            Créer une nouvelle facture
+        </a>
+    </div>
+</div>
+{% endblock %}

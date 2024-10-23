@@ -1,0 +1,14 @@
+<!-- templates/factures/supprimer_facture.html -->
+{% extends 'factures/base.html' %}
+
+{% block title %}Supprimer la Facture{% endblock %}
+
+{% block content %}
+<h1>Supprimer la Facture {{ facture.numero }}</h1>
+<p class="text-danger">Êtes-vous sûr de vouloir supprimer cette facture ? Cette action est irréversible.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+    <a href="{% url 'detail_facture' facture.pk %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}
