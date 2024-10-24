@@ -8,23 +8,16 @@ from django.contrib.auth import login
 
 
 def inscription(request):
-    """Vue pour l'inscription d'un nouvel utilisateur."""
     if request.method == 'POST':
-        user_form = UserCreationForm(request.POST)
-        client_form = ClientForm(request.POST)
-        if user_form.is_valid() and client_form.is_valid():
-            user = user_form.save()
-            client = client_form.save(commit=False)
-            client.user = user
-            client.save()
-            login(request, user)
-            messages.success(request, "Inscription réussie. Vous êtes maintenant connecté.")
-            return redirect('accueil')
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Compte créé pour {username} ! Vous pouvez maintenant vous connecter.')
+            return redirect('login')
     else:
-        user_form = UserCreationForm()
-        client_form = ClientForm()
-    return render(request, 'registration/inscription.html', 
-                 {'user_form': user_form, 'client_form': client_form})
+        form = UserCreationForm()
+    return render(request, 'registration/inscription.html', {'form': form})
 
 
 def accueil(request):

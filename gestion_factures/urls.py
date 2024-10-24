@@ -17,7 +17,6 @@ Including another URLconf
 # gestion_factures/urls.py
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import RedirectView
 from factures import views
 
 urlpatterns = [
@@ -25,5 +24,4 @@ urlpatterns = [
     path('', include('factures.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('inscription/', views.inscription, name='inscription'),
-    path('accounts/profile/', RedirectView.as_view(url='/', permanent=False)),
 ]
